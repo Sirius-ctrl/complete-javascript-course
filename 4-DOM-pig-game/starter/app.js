@@ -61,9 +61,12 @@ document.querySelector('.btn-new').addEventListener('click', initGame)
 
 
 function initGame() {
-    // reset winner state
+    // reset winner and active state
     document.querySelector('.player-0-panel').classList.remove('winner');
     document.querySelector('.player-1-panel').classList.remove('winner');
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
+    document.querySelector('.player-'+ gameState.activePlayer + '-panel').classList.add('active');
 
     gameState.scores       = [0,0];
     gameState.roundScore   = 0;
@@ -71,17 +74,16 @@ function initGame() {
     gameState.playing      = true;
     // hide the dice at the beginning
     document.querySelector('.dice').style.display = 'none'; 
-    // reset the score
+    // reset the score and name
     document.getElementById('name-0').textContent    = "PLAYER 1";
     document.getElementById('name-1').textContent    = "PLAYER 2";
     document.getElementById('score-0').textContent   = gameState.scores[0];
     document.getElementById('score-1').textContent   = gameState.scores[1];
     document.getElementById('current-0').textContent = 0;
     document.getElementById('current-1').textContent = 0;
-    document.querySelector('.player-0-panel').classList.remove('active');
-    document.querySelector('.player-1-panel').classList.remove('active');
-    document.querySelector('.player-'+ gameState.activePlayer + '-panel').classList.add('active');
 }
+
+
 
 function changePlayer() {
     gameState.scores[gameState.activePlayer] += gameState.roundScore;
