@@ -13,58 +13,69 @@ GAME RULES:
 let gameState = {
     scores:[0,0],
     roundScore:0,
-    activePlayer:0
+    activePlayer:0,
+    playing:true
 }
 
 // init the games at the very beginning
-initValue();
+initGame();
 
 //add event listen to the roll-button
 document.querySelector(".btn-roll").addEventListener('click', () => {
-    let dice = Math.floor(Math.random()*6) +1;
-    let diceDOM = document.querySelector('.dice');
-
-    diceDOM.style.display = 'block';
-
-    // or just diceDOM.src = 'dice-'+ dice + '.png'
-    diceDOM.setAttribute('src', 'dice-'+ dice + '.png');
-
-    if (dice !== 1) {
-        gameState.roundScore += dice;
+    if (gameState.playing) {
+        let dice = Math.floor(Math.random()*6) +1;
+        let diceDOM = document.querySelector('.dice');
+    
+        diceDOM.style.display = 'block';
+    
+        // or just diceDOM.src = 'dice-'+ dice + '.png'
+        diceDOM.setAttribute('src', 'dice-'+ dice + '.png');
+    
+        if (dice !== 1) {
+            gameState.roundScore += dice;
+        } else {
+            // reset the source and change player
+            gameState.roundScore = 0;
+            changePlayer();
+        }
+    
+        document.getElementById('current-' + gameState.activePlayer).textContent 
+            = gameState.roundScore;
     } else {
-        // reset the source and change player
-        gameState.roundScore = 0;
-        changePlayer();
+        initGame();
     }
-
-    document.getElementById('current-' + gameState.activePlayer).textContent 
-        = gameState.roundScore;
 });
 
 // add event listener to hold button
 document.querySelector('.btn-hold').addEventListener('click', () => {
-    // hide the dice
-    document.querySelector('.dice').style.display = 'none';
-    changePlayer();
+    if (gameState.playing) {
+        // hide the dice
+        document.querySelector('.dice').style.display = 'none';
+        changePlayer();
+    }
 });
 
 // add event listener to new game
-document.querySelector('.btn-new').addEventListener('click', () => {
-    initValue();
-})
+document.querySelector('.btn-new').addEventListener('click', initGame)
 
 
-function initValue() {
+function initGame() {
     gameState.scores       = [0,0];
     gameState.roundScore   = 0;
-    gameState.activePlayer = 0;
+    gameState.activePlayer = Math.floor(Math.random()*2); // start with random player
+    gameState.playing      = true;
     // hide the dice at the beginning
-    document.querySelector('.dice').style.display = 'none';
-    /// reset the score
-    document.getElementById('score-0').textContent = 0;
-    document.getElementById('score-1').textContent = 0;
+    document.querySelector('.dice').style.display = 'none'; 
+    // reset the score
+    document.getElementById('name-0').textContent    = "PLAYER 1";
+    document.getElementById('name-1').textContent    = "PLAYER 2";
+    document.getElementById('score-0').textContent   = gameState.scores[0];
+    document.getElementById('score-1').textContent   = gameState.scores[1];
     document.getElementById('current-0').textContent = 0;
     document.getElementById('current-1').textContent = 0;
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
+    document.querySelector('.player-'+ gameState.activePlayer + '-panel').classList.add('active');
 }
 
 function changePlayer() {
@@ -74,6 +85,14 @@ function changePlayer() {
     document.getElementById('score-' + gameState.activePlayer).textContent 
         = gameState.scores[gameState.activePlayer];
 
-    gameState.activePlayer = Math.abs(gameState.activePlayer - 1);
-    // need to change the DOM to reflect player change
+    if (gameState.scores[gameState.activePlayer] >= 100) {
+        document.getElementById('name-'+gameState.activePlayer).innerHTML = "<u>Winner!</u>";
+        gameState.playing = false;
+    } else {
+        // no winner, game continue
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        gameState.activePlayer = Math.abs(gameState.activePlayer - 1);
+        // need to change the DOM to reflect player change
+        document.querySelector('.player-1-panel').classList.toggle('active');
+    }
 }
