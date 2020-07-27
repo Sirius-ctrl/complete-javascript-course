@@ -8,14 +8,15 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
-const winningScore = 1;
+const winningScore = 100;
 
 // the game object
 let gameState = {
     scores:[0,0],
     roundScore:0,
     activePlayer:0,
-    playing:true
+    playing:true,
+    six_six:false,
 }
 
 // init the games at the very beginning
@@ -73,7 +74,7 @@ function initGame() {
     gameState.activePlayer = Math.floor(Math.random()*2); // start with random player
     gameState.playing      = true;
     // hide the dice at the beginning
-    document.querySelector('.dice').style.display = 'none'; 
+    document.querySelector('.dice').style.display = 'none';
     // reset the score and name
     document.getElementById('name-0').textContent    = "PLAYER 1";
     document.getElementById('name-1').textContent    = "PLAYER 2";
