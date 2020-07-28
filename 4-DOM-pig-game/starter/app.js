@@ -16,7 +16,6 @@ let gameState = {
     roundScore:0,
     activePlayer:0,
     playing:true,
-    six_six:false,
 }
 
 // init the games at the very beginning
@@ -25,21 +24,19 @@ initGame();
 //add event listen to the roll-button
 document.querySelector(".btn-roll").addEventListener('click', () => {
     if (gameState.playing) {
-        let dice = Math.floor(Math.random()*6) +1;
-        let diceDOM = document.querySelector('.dice');
-    
-        diceDOM.style.display = 'block';
-    
-        // or just diceDOM.src = 'dice-'+ dice + '.png'
-        diceDOM.setAttribute('src', 'dice-'+ dice + '.png');
-    
-        if (dice !== 1) {
-            gameState.roundScore += dice;
-        } else {
-            // reset the source and change player
-            gameState.roundScore = 0;
-            changePlayer();
-        }
+        // rolling all the dice
+        document.querySelectorAll('.dice').forEach((item) => {
+            let dice = Math.floor(Math.random()*6) +1;
+            item.src = 'dice-'+ dice +'.png';
+            item.style.display = 'block';
+
+            if (dice !== 1) {
+                gameState.roundScore += dice;
+            } else {
+                gameState.roundScore = 0;
+                changePlayer();
+            }
+        });
     
         document.getElementById('current-' + gameState.activePlayer).textContent 
             = gameState.roundScore;
@@ -52,7 +49,9 @@ document.querySelector(".btn-roll").addEventListener('click', () => {
 document.querySelector('.btn-hold').addEventListener('click', () => {
     if (gameState.playing) {
         // hide the dice
-        document.querySelector('.dice').style.display = 'none';
+        document.querySelectorAll('.dice').forEach((item) => {
+            item.style.display = 'none';
+        });
         changePlayer();
     }
 });
@@ -73,8 +72,12 @@ function initGame() {
     gameState.roundScore   = 0;
     gameState.activePlayer = Math.floor(Math.random()*2); // start with random player
     gameState.playing      = true;
-    // hide the dice at the beginning
-    document.querySelector('.dice').style.display = 'none';
+
+    // hide all dice at the beginning
+    document.querySelectorAll(".dice").forEach((item) => {
+        item.style.display = 'none';
+    });
+
     // reset the score and name
     document.getElementById('name-0').textContent    = "PLAYER 1";
     document.getElementById('name-1').textContent    = "PLAYER 2";
@@ -83,7 +86,6 @@ function initGame() {
     document.getElementById('current-0').textContent = 0;
     document.getElementById('current-1').textContent = 0;
 }
-
 
 
 function changePlayer() {
