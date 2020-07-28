@@ -63,6 +63,9 @@ document.querySelector(".btn-hold").addEventListener("click", () => {
 // add event listener to new game
 document.querySelector(".btn-new").addEventListener("click", initGame);
 
+/**
+ * Init the game
+ */
 function initGame() {
   // reset winner and active state
   document.querySelector(".player-0-panel").classList.remove("winner");
@@ -84,10 +87,10 @@ function initGame() {
   });
 
   // reset the score and name
-  document.getElementById("name-0").textContent = "PLAYER 1";
-  document.getElementById("name-1").textContent = "PLAYER 2";
-  document.getElementById("score-0").textContent = gameState.scores[0];
-  document.getElementById("score-1").textContent = gameState.scores[1];
+  document.getElementById("name-0").textContent    = "PLAYER 1";
+  document.getElementById("name-1").textContent    = "PLAYER 2";
+  document.getElementById("score-0").textContent   = gameState.scores[0];
+  document.getElementById("score-1").textContent   = gameState.scores[1];
   document.getElementById("current-0").textContent = 0;
   document.getElementById("current-1").textContent = 0;
 }
