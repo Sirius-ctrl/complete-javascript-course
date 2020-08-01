@@ -72,14 +72,16 @@ function initGame() {
   document.querySelector(".player-1-panel").classList.remove("winner");
   document.querySelector(".player-0-panel").classList.remove("active");
   document.querySelector(".player-1-panel").classList.remove("active");
-  document
-    .querySelector(".player-" + gameState.activePlayer + "-panel")
-    .classList.add("active");
+
 
   gameState.scores = [0, 0];
   gameState.roundScore = 0;
   gameState.activePlayer = Math.floor(Math.random() * 2); // start with random player
   gameState.playing = true;
+
+  document
+  .querySelector(".player-" + gameState.activePlayer + "-panel")
+  .classList.add("active");
 
   // hide all dice at the beginning
   document.querySelectorAll(".dice").forEach((item) => {
